@@ -56,5 +56,22 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleTypeRole</key>
+    		<string>Editor</string>
+    		<key>CFBundleURLSchemes</key>
+    		<array>
+    			<!-- TODO Replace this value: -->
+    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+    			<string>com.googleusercontent.apps.546582034327-ak1uu3480rt79t08mi8vu8tlb4aprmm4</string>
+    		</array>
+
+    <key>NSCameraUsageDescription</key>
+    	<string>Kull Food Delivery needs camera permission to check the correctness of orders.</string>
+    	<key>NSLocationWhenInUseUsageDescription</key>
+    	<string>This app needs access to location to manage coverage of restaurant and when add a new address.</string>
+    	<key>NSMicrophoneUsageDescription</key>
+    	<string>This app requires access to the microphone.</string>
+    	<key>NSPhotoLibraryUsageDescription</key>
+    	<string>Kull Food Delivery needs photo library permission to check the correctness of orders.</string>
 </dict>
 </plist>

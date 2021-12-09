@@ -22,7 +22,8 @@ class AuthController extends GetxController implements GetxService {
   Future<ResponseModel> registration(SignUpBody signUpBody) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.registration(signUpBody);
+    Response response= await authRepo.registration(signUpBody);
+
     ResponseModel responseModel;
     if (response.statusCode == 200) {
       if(!Get.find<SplashController>().configModel.customerVerification) {
@@ -38,10 +39,11 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  Future<ResponseModel> login(String phone, String password) async {
+  Future<ResponseModel> login(SignUpBody signUpBody) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.login(phone: phone, password: password);
+    Response response = await authRepo.login(phone: signUpBody.phone, password: signUpBody.password);
+
     ResponseModel responseModel;
     if (response.statusCode == 200) {
       if(Get.find<SplashController>().configModel.customerVerification && response.body['is_phone_verified'] == 0) {

@@ -1,5 +1,6 @@
 import 'package:efood_multivendor/controller/auth_controller.dart';
 import 'package:efood_multivendor/controller/user_controller.dart';
+import 'package:efood_multivendor/data/model/body/signup_body.dart';
 import 'package:efood_multivendor/data/model/response/userinfo_model.dart';
 import 'package:efood_multivendor/helper/route_helper.dart';
 import 'package:efood_multivendor/util/dimensions.dart';
@@ -119,7 +120,10 @@ class _NewPassScreenState extends State<NewPassScreen> {
       }else {
         Get.find<AuthController>().resetPassword(widget.resetToken, '+'+widget.number.trim(), _password, _confirmPassword).then((value) {
           if (value.isSuccess) {
-            Get.find<AuthController>().login('+'+widget.number.trim(), _password).then((value) async {
+            SignUpBody signUpBody = SignUpBody(
+              password: _password,
+              phone: '+'+widget.number.trim(),);
+            Get.find<AuthController>().login(signUpBody).then((value) async {
               Get.offAllNamed(RouteHelper.getAccessLocationRoute('reset-password'));
             });
           } else {

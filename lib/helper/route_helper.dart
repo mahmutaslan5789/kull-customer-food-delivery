@@ -96,8 +96,8 @@ class RouteHelper {
   static String getOnBoardingRoute() => '$onBoarding';
   static String getSignInRoute(String page) => '$signIn?page=$page';
   static String getSignUpRoute() => '$signUp';
-  static String getVerificationRoute(String number, String token, String page, String pass) {
-    return '$verification?page=$page&number=$number&token=$token&pass=$pass';
+  static String getVerificationRoute(String number, String token, String page, String pass,String mail,String social_id) {
+    return '$verification?page=$page&number=$number&token=$token&pass=$pass&mail=$mail&social_id=$social_id';
   }
   static String getAccessLocationRoute(String page) => '$accessLocation?page=$page';
   static String getPickMapRoute(String page, bool canRoute) => '$pickMap?page=$page&route=${canRoute.toString()}';

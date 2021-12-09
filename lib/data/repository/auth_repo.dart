@@ -18,11 +18,15 @@ class AuthRepo {
   Future<Response> registration(SignUpBody signUpBody) async {
     return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson());
   }
-
+  Future<Response> registrationSocial(SignUpBody signUpBody,String social_id) async {
+    return await apiClient.postData(AppConstants.REGISTER_URI, signUpBody.toJson());
+  }
   Future<Response> login({String phone, String password}) async {
     return await apiClient.postData(AppConstants.LOGIN_URI, {"phone": phone, "password": password});
   }
-
+  Future<Response> loginSocial({SignUpBody signUpBody}) async {
+    return await apiClient.postData(AppConstants.LOGIN_URI, signUpBody.toJson());
+  }
   Future<Response> updateToken() async {
     String _deviceToken;
     if (GetPlatform.isIOS) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:efood_multivendor/controller/auth_controller.dart';
 import 'package:efood_multivendor/controller/splash_controller.dart';
+import 'package:efood_multivendor/data/model/body/signup_body.dart';
 import 'package:efood_multivendor/helper/route_helper.dart';
 import 'package:efood_multivendor/util/dimensions.dart';
 import 'package:efood_multivendor/util/images.dart';
@@ -19,7 +20,9 @@ class VerificationScreen extends StatefulWidget {
   final bool fromSignUp;
   final String token;
   final String password;
-  VerificationScreen({@required this.number, @required this.password, @required this.fromSignUp, @required this.token});
+  final String social_id;
+  final String mail;
+  VerificationScreen({@required this.number,this.password,this.mail, this.social_id,@required this.fromSignUp, @required this.token});
 
   @override
   _VerificationScreenState createState() => _VerificationScreenState();
@@ -117,7 +120,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 TextButton(
                   onPressed: _seconds < 1 ? () {
                     if(widget.fromSignUp) {
-                      authController.login(_number, widget.password).then((value) {
+                      SignUpBody signUpBody = SignUpBody(
+                        password: widget.password,
+                        social_id: widget.social_id,
+                        email: widget.mail,
+                        phone: _number,);
+                      authController.login(signUpBody).then((value) {
                         if (value.isSuccess) {
                           _startTimer();
                           showCustomSnackBar('resend_code_successful'.tr, isError: false);

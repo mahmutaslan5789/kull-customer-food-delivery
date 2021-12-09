@@ -25,6 +25,7 @@ class AppConstants {
   static const String CHECK_EMAIL_URI = '/api/v1/auth/check-email';
   static const String VERIFY_EMAIL_URI = '/api/v1/auth/verify-email';
   static const String REGISTER_URI = '/api/v1/auth/register';
+  static const String SOCIAL_URI = '/api/v1/auth/register'; // sosyal
   static const String LOGIN_URI = '/api/v1/auth/login';
   static const String TOKEN_URI = '/api/v1/customer/cm-firebase-token';
   static const String PLACE_ORDER_URI = '/api/v1/customer/order/place';

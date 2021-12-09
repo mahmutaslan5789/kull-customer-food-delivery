@@ -6,6 +6,7 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:efood_multivendor/controller/auth_controller.dart';
 import 'package:efood_multivendor/controller/localization_controller.dart';
 import 'package:efood_multivendor/controller/splash_controller.dart';
+import 'package:efood_multivendor/data/model/body/signup_body.dart';
 import 'package:efood_multivendor/helper/responsive_helper.dart';
 import 'package:efood_multivendor/helper/route_helper.dart';
 import 'package:efood_multivendor/util/dimensions.dart';
@@ -15,16 +16,23 @@ import 'package:efood_multivendor/view/base/custom_button.dart';
 import 'package:efood_multivendor/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor/view/base/custom_text_field.dart';
 import 'package:efood_multivendor/view/base/web_menu_bar.dart';
+import 'package:efood_multivendor/view/screens/auth/social_sing_up.dart';
 import 'package:efood_multivendor/view/screens/auth/widget/code_picker_widget.dart';
 import 'package:efood_multivendor/view/screens/auth/widget/condition_check_box.dart';
 import 'package:efood_multivendor/view/screens/auth/widget/guest_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
+
   SignInScreen({@required this.exitFromApp});
 
   @override
@@ -127,8 +135,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       : null,
                   child: GetBuilder<AuthController>(builder: (authController) {
                     return Column(children: [
-                      Image.asset(Images.logo, width: 100),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                      Image.asset(Images.logo, width: 200),
                       Text('sign_in'.tr.toUpperCase(),
                           style: robotoBlack.copyWith(fontSize: 30)),
                       SizedBox(height: 50),
@@ -242,6 +249,100 @@ class _SignInScreenState extends State<SignInScreen> {
                             ])
                           : Center(child: CircularProgressIndicator()),
                       SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // sign in with google
+                          GestureDetector(
+                            onTap: () {
+                              signInWithGoogle(authController);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                color: Color(0xFF50c7c7),
+                                child: Row(
+                                  children: [
+                                    Image.asset(Images.google, width: 40),
+                                    Text('Sign in with google'.tr,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500)),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          // sign in with facebook
+                          GestureDetector(
+                            onTap: () {
+                              signInWithFacebook(authController);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                color: Color(0xFF3b5998),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Image.asset(Images.facebook,
+                                          width: 30),
+                                    ),
+                                    Text(
+                                      'Sign in with facebook'.tr,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      if (Platform.isIOS)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            // sign in with apple
+                            GestureDetector(
+                              onTap: () {
+                                signInWithApple(authController);
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  color: Color(0xFF000000),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Image.asset(Images.apple,
+                                            width: 30),
+                                      ),
+                                      Text('Sign in with aplle'.tr,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500)),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       GuestButton(),
                     ]);
                   }),
@@ -277,8 +378,11 @@ class _SignInScreenState extends State<SignInScreen> {
     } else if (_password.length < 6) {
       showCustomSnackBar('password_should_be'.tr);
     } else {
+      SignUpBody signUpBody = SignUpBody(
+        password: _password,
+        phone: _numberWithCountryCode,);
       authController
-          .login(_numberWithCountryCode, _password)
+          .login(signUpBody)
           .then((status) async {
         if (status.isSuccess) {
           if (authController.isActiveRememberMe) {
@@ -293,7 +397,7 @@ class _SignInScreenState extends State<SignInScreen> {
             List<int> _encoded = utf8.encode(_password);
             String _data = base64Encode(_encoded);
             Get.toNamed(RouteHelper.getVerificationRoute(
-                _numberWithCountryCode, _token, RouteHelper.signUp, _data));
+                _numberWithCountryCode, _token, RouteHelper.signUp, _data,null,null));
           } else {
             Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
           }
@@ -302,5 +406,105 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       });
     }
+  }
+
+  Future<void> signInWithGoogle(
+    AuthController authController,
+  ) async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount credential =
+        await GoogleSignIn().signIn().onError((error, stackTrace) {
+      print(error);
+      return showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          content: Text(
+            "$error",
+          ),
+        ),
+        barrierDismissible: true,
+      );
+    });
+
+    if (credential != null) {
+     await socialSing(authController, credential.id,credential.email,credential.displayName);
+    }
+  }
+
+  Future<void> signInWithFacebook(
+    AuthController authController,
+  ) async {
+    final LoginResult credential =
+        await FacebookAuth.instance.login().onError((error, stackTrace) {
+      print(error);
+      return showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          content: Text(
+            "$error",
+          ),
+        ),
+        barrierDismissible: true,
+      );
+    });
+    final FacebookAuthCredential facebookAuthCredential =
+    FacebookAuthProvider.credential(credential.accessToken.token);
+    var _auth = FirebaseAuth.instance;
+    final User user =  (await _auth.signInWithCredential(facebookAuthCredential)).user;
+   /* print("id : " + credential.accessToken.userId);
+    print("displayName : " + user.displayName);
+    print("email : " + user.email!=null?user.email:null);
+    print("emailİs: " + credential.accessToken.token.isEmail.toString());
+    print("phoneNumber : " +user.phoneNumber!=null?user.phoneNumber:null);
+    print("phoneNumberİS : " +credential.accessToken.token.isPhoneNumber.toString());*/
+    if (credential != null) {
+       await socialSing(authController, credential.accessToken.userId,user.email!=null?user.email:null,user.displayName);
+
+    }
+  }
+
+  Future<void> signInWithApple(
+    AuthController authController,
+  ) async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    ).onError((error, stackTrace) => showCupertinoDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            content: Text(
+              "$error",
+            ),
+          ),
+          barrierDismissible: true,
+        ));
+    if (credential != null) {
+       await socialSing(authController, credential.identityToken,credential.email, credential.givenName);
+
+    }
+  }
+
+  Future<void> socialSing(AuthController authController, String social_id,String mail,name) {
+    SignUpBody signUpBody = SignUpBody(
+      email: mail,
+      social_id: social_id,
+    );
+    authController.registration(signUpBody).then((status) async {
+      print("status : ${status.message}");
+      if (status.isSuccess) {
+        Get.toNamed(RouteHelper.getAccessLocationRoute('sign-in'));
+      } else {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => SocialSingUp(
+                  name: name,
+                  mail: mail,
+                  social_id: social_id,
+                )));
+      }
+    });
   }
 }

@@ -265,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             List<int> _encoded = utf8.encode(_password);
             String _data = base64Encode(_encoded);
             Get.toNamed(RouteHelper.getVerificationRoute(_numberWithCountryCode,
-                status.message, RouteHelper.signUp, _data));
+                status.message, RouteHelper.signUp, _data,null,null));
           } else {
             Get.toNamed(RouteHelper.getAccessLocationRoute(RouteHelper.signUp));
           }

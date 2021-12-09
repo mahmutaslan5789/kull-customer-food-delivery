@@ -1,4 +1,5 @@
 import 'package:efood_multivendor/controller/auth_controller.dart';
+import 'package:efood_multivendor/controller/location_controller.dart';
 import 'package:efood_multivendor/controller/splash_controller.dart';
 import 'package:efood_multivendor/controller/wishlist_controller.dart';
 import 'package:efood_multivendor/data/model/response/address_model.dart';
@@ -12,6 +13,7 @@ import 'package:efood_multivendor/util/styles.dart';
 import 'package:efood_multivendor/view/base/custom_image.dart';
 import 'package:efood_multivendor/view/base/custom_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class RestaurantDescriptionView extends StatelessWidget {
@@ -21,6 +23,17 @@ class RestaurantDescriptionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color _textColor = ResponsiveHelper.isDesktop(context) ? Colors.white : null;
+    var distance = Geolocator.distanceBetween(
+      double.parse(
+          Get.find<LocationController>().getUserAddress()?.latitude),
+      double.parse(
+          Get.find<LocationController>().getUserAddress()?.longitude),
+      double.parse(
+          restaurant?.latitude),
+      double.parse(
+          restaurant?.longitude),
+    ) /
+        1000;
     return Column(children: [
       Row(children: [
 
@@ -34,7 +47,7 @@ class RestaurantDescriptionView extends StatelessWidget {
         SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            restaurant.name, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: _textColor),
+            "${restaurant.name}", style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, color: _textColor),
             maxLines: 1, overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: ResponsiveHelper.isDesktop(context) ? Dimensions.PADDING_SIZE_EXTRA_SMALL : 0),
@@ -119,7 +132,7 @@ class RestaurantDescriptionView extends StatelessWidget {
           child: Column(children: [
             Icon(Icons.location_on, color: Theme.of(context).primaryColor, size: 20),
             SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            Text('location'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: _textColor)),
+            Text('Location (${distance?.toStringAsFixed(1)} km)'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: _textColor)),
           ]),
         ),
         Expanded(child: SizedBox()),
