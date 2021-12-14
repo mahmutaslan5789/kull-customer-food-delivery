@@ -18,18 +18,33 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleTypeRole</key>
+	<string>Editor</string>
+	<key>CFBundleURLSchemes</key>
+	<array>
+		<string>com.googleusercontent.apps.546582034327-ak1uu3480rt79t08mi8vu8tlb4aprmm4</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb933271090934726</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>Kull Food Delivery needs camera permission to check the correctness of orders.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location to manage coverage of restaurant and when add a new address.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires access to the microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the camera.</string>
+	<string>Kull Food Delivery needs photo library permission to check the correctness of orders.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -56,22 +71,27 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleTypeRole</key>
-    		<string>Editor</string>
-    		<key>CFBundleURLSchemes</key>
-    		<array>
-    			<!-- TODO Replace this value: -->
-    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-    			<string>com.googleusercontent.apps.546582034327-ak1uu3480rt79t08mi8vu8tlb4aprmm4</string>
-    		</array>
-
-    <key>NSCameraUsageDescription</key>
-    	<string>Kull Food Delivery needs camera permission to check the correctness of orders.</string>
-    	<key>NSLocationWhenInUseUsageDescription</key>
-    	<string>This app needs access to location to manage coverage of restaurant and when add a new address.</string>
-    	<key>NSMicrophoneUsageDescription</key>
-    	<string>This app requires access to the microphone.</string>
-    	<key>NSPhotoLibraryUsageDescription</key>
-    	<string>Kull Food Delivery needs photo library permission to check the correctness of orders.</string>
+	<key>FacebookAppID</key>
+	<string>933271090934726</string>
+	<key>FacebookDisplayName</key>
+	<string>com.kull.malta</string>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fbapi20130214</string>
+      <string>fbapi20130410</string>
+      <string>fbapi20130702</string>
+      <string>fbapi20131010</string>
+      <string>fbapi20131219</string>
+      <string>fbapi20140410</string>
+      <string>fbapi20140116</string>
+      <string>fbapi20150313</string>
+      <string>fbapi20150629</string>
+      <string>fbapi20160328</string>
+      <string>fbauth</string>
+      <string>fb-messenger-share-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>
