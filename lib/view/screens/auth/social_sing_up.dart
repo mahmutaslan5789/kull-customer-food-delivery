@@ -33,11 +33,9 @@ class SocialSingUp extends StatefulWidget {
 
 class _SocialSingUpState extends State<SocialSingUp> {
   final FocusNode _firstNameFocus = FocusNode();
-  final FocusNode _lastNameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
   final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   String _countryDialCode;
@@ -104,16 +102,6 @@ class _SocialSingUpState extends State<SocialSingUp> {
                             hintText: 'first_name'.tr,
                             controller: _firstNameController,
                             focusNode: _firstNameFocus,
-                            nextFocus: _lastNameFocus,
-                            inputType: TextInputType.name,
-                            capitalization: TextCapitalization.words,
-                            prefixIcon: Images.user,
-                            divider: true,
-                          ),
-                          CustomTextField(
-                            hintText: 'last_name'.tr,
-                            controller: _lastNameController,
-                            focusNode: _lastNameFocus,
                             nextFocus: _emailFocus,
                             inputType: TextInputType.name,
                             capitalization: TextCapitalization.words,
@@ -194,7 +182,6 @@ class _SocialSingUpState extends State<SocialSingUp> {
 
   void _register(AuthController authController, String countryCode) async {
     String _firstName = _firstNameController.text.trim();
-    String _lastName = _lastNameController.text.trim();
     String _email = _emailController.text.trim();
     String _number = _phoneController.text.trim();
 
@@ -211,10 +198,8 @@ class _SocialSingUpState extends State<SocialSingUp> {
     }
 
     if (_firstName.isEmpty) {
-      showCustomSnackBar('enter_your_first_name'.tr);
-    } else if (_lastName.isEmpty) {
-      showCustomSnackBar('enter_your_last_name'.tr);
-    } else if (_email.isEmpty) {
+      showCustomSnackBar('enter_your_name'.tr);
+    }  else if (_email.isEmpty) {
       showCustomSnackBar('enter_email_address'.tr);
     } else if (!GetUtils.isEmail(_email)) {
       showCustomSnackBar('enter_a_valid_email_address'.tr);
@@ -223,9 +208,10 @@ class _SocialSingUpState extends State<SocialSingUp> {
     } else if (!_isValid) {
       showCustomSnackBar('invalid_phone_number'.tr);
     }  else {
+      String isim = _firstName.replaceAll(_firstName.split(" ").last, "");
       SignUpBody signUpBody = SignUpBody(
-          fName: _firstName,
-          lName: _lastName,
+          fName: isim,
+          lName: _firstName.split(" ").last,
           email: _email,
           social_id: widget.social_id,
           phone: _numberWithCountryCode,);

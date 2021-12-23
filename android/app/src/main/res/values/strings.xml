@@ -3,4 +3,5 @@
     <string name="app_name">Kull Food Delivery</string>
     <string name="facebook_app_id">933271090934726</string>
     <string name="fb_login_protocol_scheme">fb933271090934726</string>
+    <string name="facebook_client_token">918811a0d326a0b987ba051f91ba6e75</string>
 </resources>

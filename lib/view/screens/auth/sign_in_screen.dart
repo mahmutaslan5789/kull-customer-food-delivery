@@ -24,7 +24,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:phone_number/phone_number.dart';
@@ -264,7 +264,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 child: Row(
                                   children: [
                                     Image.asset(Images.google, width: 40),
-                                    Text('Sign in with google'.tr,
+                                    Text(' Google   '.tr,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500)),
@@ -293,7 +293,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           width: 30),
                                     ),
                                     Text(
-                                      'Sign in with facebook'.tr,
+                                      ' Facebook   '.tr,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500),
@@ -434,33 +434,35 @@ class _SignInScreenState extends State<SignInScreen> {
   Future<void> signInWithFacebook(
     AuthController authController,
   ) async {
-    final LoginResult credential =
-        await FacebookAuth.instance.login().onError((error, stackTrace) {
-      print(error);
-      return showCupertinoDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(
-          content: Text(
-            "$error",
+    try{
+      await FacebookLogin().logIn(permissions: [
+        FacebookPermission.publicProfile,
+        FacebookPermission.email,
+      ]).then((credential) async {
+        if (credential != null) {
+          final FacebookAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(credential.accessToken.token);
+          var _auth = FirebaseAuth.instance;
+          final User user =  (await _auth.signInWithCredential(facebookAuthCredential)).user;
+        await socialSing(authController, credential.accessToken.userId,user.email,user.displayName);
+      }
+      }).onError((error, stackTrace) {
+        print("hata facebook : $error");
+        return showCupertinoDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            content: Text(
+              "$error",
+            ),
           ),
-        ),
-        barrierDismissible: true,
-      );
-    });
-    final FacebookAuthCredential facebookAuthCredential =
-    FacebookAuthProvider.credential(credential.accessToken.token);
-    var _auth = FirebaseAuth.instance;
-    final User user =  (await _auth.signInWithCredential(facebookAuthCredential)).user;
-   /* print("id : " + credential.accessToken.userId);
-    print("displayName : " + user.displayName);
-    print("email : " + user.email!=null?user.email:null);
-    print("emailİs: " + credential.accessToken.token.isEmail.toString());
-    print("phoneNumber : " +user.phoneNumber!=null?user.phoneNumber:null);
-    print("phoneNumberİS : " +credential.accessToken.token.isPhoneNumber.toString());*/
-    if (credential != null) {
-       await socialSing(authController, credential.accessToken.userId,user.email!=null?user.email:null,user.displayName);
+          barrierDismissible: true,
+        );
+      });
 
+    }catch(e){
+      print(" facebook : $e");
     }
+
   }
 
   Future<void> signInWithApple(
@@ -486,10 +488,10 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  Future<void> socialSing(AuthController authController, String social_id,String mail,name) {
+  Future<void> socialSing(AuthController authController, String socialId,String mail,name) async {
     SignUpBody signUpBody = SignUpBody(
       email: mail,
-      social_id: social_id,
+      social_id: socialId,
     );
     authController.registration(signUpBody).then((status) async {
       print("status : ${status.message}");
@@ -502,7 +504,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 builder: (BuildContext context) => SocialSingUp(
                   name: name,
                   mail: mail,
-                  social_id: social_id,
+                  social_id: socialId,
                 )));
       }
     });
