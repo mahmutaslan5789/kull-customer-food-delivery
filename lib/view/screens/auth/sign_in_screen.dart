@@ -64,6 +64,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async {
         if (widget.exitFromApp) {
@@ -260,11 +262,17 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
+                                width: width/2.2,
+                                height: 50,
                                 color: Color(0xFF50c7c7),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    SizedBox(
+                                      width: 5,
+                                    ),
                                     Image.asset(Images.google, width: 40),
-                                    Text(' Google   '.tr,
+                                    Text(' Google Login   ',
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w500)),
@@ -284,16 +292,19 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
+                                width: width/2.2,
+                                height: 50,
                                 color: Color(0xFF3b5998),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Image.asset(Images.facebook,
-                                          width: 30),
+                                    SizedBox(
+                                      width: 5,
                                     ),
+                                    Image.asset(Images.facebook,
+                                        width: 30),
                                     Text(
-                                      ' Facebook   '.tr,
+                                      '  Facebook Login   ',
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500),
@@ -321,15 +332,15 @@ class _SignInScreenState extends State<SignInScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
+                                  width: width/2.2,
+                                  height: 50,
                                   color: Color(0xFF000000),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Image.asset(Images.apple,
-                                            width: 30),
-                                      ),
-                                      Text('Sign in with aplle'.tr,
+                                      Image.asset(Images.apple,
+                                          width: 30),
+                                      Text('Apple Login   ',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500)),
