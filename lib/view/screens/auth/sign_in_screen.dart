@@ -236,6 +236,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               Expanded(
                                   child: CustomButton(
                                 buttonText: 'sign_up'.tr,
+                                
                                 transparent: true,
                                 onPressed: () =>
                                     Get.toNamed(RouteHelper.getSignUpRoute()),
@@ -262,7 +263,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
-                                width: width/2.2,
+                                width: context.width>700? 300 :width/2.2,
                                 height: 50,
                                 color: Color(0xFF50c7c7),
                                 child: Row(
@@ -275,7 +276,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                     Text(' Sign in with Google',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: width/30,
+                                            fontSize: context.width>700?18:context.width/30,
                                             fontWeight: FontWeight.bold)),
                                     SizedBox(
                                       width: 4,
@@ -293,7 +294,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Container(
-                                width: width/2.2,
+                                width: context.width>700? 300 :width/2.2,
                                 height: 50,
                                 color: Color(0xFF3b5998),
                                 child: Row(
@@ -308,7 +309,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       ' Sign in with Facebook',
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: width/30,
+                                          fontSize: context.width>700?18:context.width/30,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
@@ -322,7 +323,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                    //  if (Platform.isIOS)
+                      if (Platform.isIOS)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -334,7 +335,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Container(
-                                  width: width/2.2,
+                                  width: context.width>700? 300 :width/2.2,
                                   height: 50,
                                   color: Color(0xFF000000),
                                   child: Row(
@@ -345,7 +346,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       Text('Sign in with Apple',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: width/30,
+                                              fontSize: context.width>700?18:context.width/30,
                                               fontWeight: FontWeight.bold)),
                                       SizedBox(
                                         width: 4,
