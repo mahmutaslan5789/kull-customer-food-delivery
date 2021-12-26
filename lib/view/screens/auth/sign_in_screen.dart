@@ -272,10 +272,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                       width: 5,
                                     ),
                                     Image.asset(Images.google, width: 40),
-                                    Text(' Google Login   ',
+                                    Text(' Sign in with Google',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontWeight: FontWeight.w500)),
+                                            fontSize: width/30,
+                                            fontWeight: FontWeight.bold)),
                                     SizedBox(
                                       width: 4,
                                     ),
@@ -304,10 +305,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                     Image.asset(Images.facebook,
                                         width: 30),
                                     Text(
-                                      '  Facebook Login   ',
+                                      ' Sign in with Facebook',
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.w500),
+                                          fontSize: width/30,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
                                       width: 4,
@@ -320,7 +322,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      if (Platform.isIOS)
+                    //  if (Platform.isIOS)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -340,10 +342,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                     children: [
                                       Image.asset(Images.apple,
                                           width: 30),
-                                      Text('Apple Login   ',
+                                      Text('Sign in with Apple',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.w500)),
+                                              fontSize: width/30,
+                                              fontWeight: FontWeight.bold)),
                                       SizedBox(
                                         width: 4,
                                       ),
